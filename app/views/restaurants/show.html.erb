@@ -1,0 +1,34 @@
+<h1>Welcome to <%= @restaurant.name %>!</h1>
+
+<p><i class="fa fa-map"></i><%= @restaurant.address %></p>
+<p><i class="fa fa-phone"></i><%= @restaurant.phone_number %></p>
+
+<%= link_to 'Create a new review', restaurant_reviews_path(@restaurant), class:"" %>
+
+<h1>Create a new review!</h1>
+
+<% simple_form_for([@restaurant, @review]) do |f| %>
+  <%= f.input :content %>
+  <%= f.input :rating %>
+  <%= f.submit 'Create' %>
+<% end %>
+
+
+<% if @restaurant.reviews.empty? %>
+  <p>No reviews yet!</p>
+<% else %>
+  <ul>
+    <% @restaurant.reviews.each do |review| %>
+
+      <li>
+        <% review.rating.times do %>
+          <i class="fa fa-star"></i>
+        <% end %>
+        <% (5 - review.rating).times do %>
+          <i class="fa fa-star"></i>
+        <% end %>
+        <p><%= review.content %></p>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
